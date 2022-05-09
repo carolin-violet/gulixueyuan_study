@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@tinymce/tinymce-vue": "^1.1.0",
+    "tinymce": "^4.8.5"
+  }
+}
