@@ -11,10 +11,51 @@ export default {
     })
   },
 
-    // 2 查询所有讲师
-    getListTeacher() {
+  // 2 查询所有讲师
+  getListTeacher() {
+    return request({
+      url: '/eduservice/teacher/findAll',
+      method: 'get'
+    })
+  },
+
+  // 3 根据课程id查询课程信息
+  getCourseInfo(courseId) {
+    return request({
+      url: `/eduservice/course/getCourseInfo/${courseId}`,
+      method: 'get'
+    })
+  },
+
+  // 更新课程信息
+  updateCourseInfo(courseInfo) {
+    return request({
+      url: '/eduservice/course/updateCourseInfo',
+      method: 'post',
+      data: courseInfo
+    })
+  },
+
+  // 根据课程id查询课程信息
+  getPublishCourseInfo(id) {
+    return request({
+      url: `/eduservice/course/getPublishCourseInfo/${id}`,
+      method: 'get'
+    })
+  },
+
+  // 课程最终发布
+  publishCourse(id) {
+    return request({
+      url: `/eduservice/course/publishCourse/${id}`,
+      method: 'post'
+    })
+  },
+
+    // 查询所有课程
+    getListCourse() {
       return request({
-        url: '/eduservice/teacher/findAll',
+        url: '/eduservice/course/',
         method: 'get'
       })
     },

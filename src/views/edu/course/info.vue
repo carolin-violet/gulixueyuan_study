@@ -39,6 +39,7 @@
             :key="subject.id"
             :label="subject.title"
             :value="subject.id"
+            select="selected"
           />
         </el-select>
       </el-form-item>
@@ -123,6 +124,7 @@ export default {
         price: 0,
         subjectParentId: "",
       },
+      courseId: null,
       teacherList: [],
       subjectOneList: [],
       subjectTwoList: [],
@@ -131,6 +133,10 @@ export default {
   },
 
   created() {
+    if (this.$route.params && this.$route.params.id) {
+      this.courseId = this.$route.params.id;
+      this.getInfo();
+    }
     this.getListTeacher();
     this.getOneSubject();
   },
@@ -140,13 +146,30 @@ export default {
   computed: {},
 
   methods: {
-    async saveOrUpdate() {
+    saveOrUpdate() {
+      if (this.courseInfo.id) {
+        this.updateCourse();
+      } else {
+        this.addCourse();
+      }
+    },
+
+    async addCourse() {
       let res = await course.addCourseInfo(this.courseInfo);
       if (res.code === 20000) {
         this.$message.success("添加信息成功");
         this.$router.push({ path: `/course/chapter/${res.data.courseId}` });
       }
     },
+
+    async updateCourse() {
+      let res = await course.updateCourseInfo(this.courseInfo);
+      if (res.code === 20000) {
+        this.$message.success("修改信息成功");
+        this.$router.push({ path: `/course/chapter/${this.courseId}` });
+      }
+    },
+
     async getListTeacher() {
       let res = await course.getListTeacher();
       if (res.code === 20000) {
@@ -155,7 +178,7 @@ export default {
     },
     async getOneSubject() {
       let res = await subject.getSubjectList();
-      if (res.code === 20000) {
+      if (res.code == 20000) {
         this.subjectOneList = res.data.list;
       }
     },
@@ -179,8 +202,22 @@ export default {
       }
       return isJPG && isLt2M;
     },
+
     onClick(e, editor) {
       console.log(this.courseInfo.description);
+    },
+
+    async getInfo() {
+      let res = await course.getCourseInfo(this.courseId);
+      if (res.code == 20000) {
+        this.courseInfo = res.data.courseInfo;
+        subject.getSubjectList().then(res => {
+          this.subjectOneList=res.data.list
+        })
+        this.subjectTwoList = this.subjectOneList.find(
+          (item) => item.id == this.courseInfo.subjectParentId
+        ).children;
+      }
     },
   },
 };

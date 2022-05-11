@@ -120,6 +120,7 @@ export default {
       );
       this.list = res.data.rows;
       this.total = res.data.total;
+      console.log(this.list);
     },
 
     removeDataById(id) {
