@@ -2,6 +2,7 @@ package com.atguigu.eduservice.service;
 
 import com.atguigu.eduservice.bean.EduCourse;
 import com.atguigu.eduservice.bean.vo.CourseInfoVo;
+import com.atguigu.eduservice.bean.vo.CoursePublishVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -15,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface EduCourseService extends IService<EduCourse> {
 
     String saveCourseInfo(CourseInfoVo courseInfoVo);
+
+    CourseInfoVo getCourseInfo(String courseId);
+
+    void updateCourseInfo(CourseInfoVo courseInfoVo);
+
+    CoursePublishVo publishCourseInfo(String id);
 }

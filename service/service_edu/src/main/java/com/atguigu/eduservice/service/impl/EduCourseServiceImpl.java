@@ -3,6 +3,7 @@ package com.atguigu.eduservice.service.impl;
 import com.atguigu.eduservice.bean.EduCourse;
 import com.atguigu.eduservice.bean.EduCourseDescription;
 import com.atguigu.eduservice.bean.vo.CourseInfoVo;
+import com.atguigu.eduservice.bean.vo.CoursePublishVo;
 import com.atguigu.eduservice.mapper.EduCourseMapper;
 import com.atguigu.eduservice.service.EduCourseDescriptionService;
 import com.atguigu.eduservice.service.EduCourseService;
@@ -45,5 +46,44 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         courseDescriptionService.save(courseDescription);
 
         return cid;
+    }
+
+    // 根据课程id查询课程基本信息
+    @Override
+    public CourseInfoVo getCourseInfo(String courseId) {
+
+        // 查询课程表
+        EduCourse eduCourse = baseMapper.selectById(courseId);
+
+        // 查询描述表
+        EduCourseDescription courseDescription = courseDescriptionService.getById(courseId);
+
+        CourseInfoVo courseInfoVo = new CourseInfoVo();
+        BeanUtils.copyProperties(eduCourse, courseInfoVo);
+        courseInfoVo.setDescription(courseDescription.getDescription());
+
+        return courseInfoVo;
+    }
+
+    // 修改课程信息
+    @Override
+    public void updateCourseInfo(CourseInfoVo courseInfoVo) {
+        EduCourse eduCourse = new EduCourse();
+        BeanUtils.copyProperties(courseInfoVo, eduCourse);
+        int update = baseMapper.updateById(eduCourse);
+
+        if (update == 0) {
+            throw new GuliExcepiton(20001, "修改课程信息失败");
+        }
+
+        EduCourseDescription eduCourseDescription = new EduCourseDescription();
+        BeanUtils.copyProperties(courseInfoVo, eduCourseDescription);
+        courseDescriptionService.updateById(eduCourseDescription);
+    }
+
+    @Override
+    public CoursePublishVo publishCourseInfo(String id) {
+        CoursePublishVo publishCourseInfo = baseMapper.getPublishCourseInfo(id);
+        return publishCourseInfo;
     }
 }
