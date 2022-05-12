@@ -92,8 +92,31 @@
             <el-radio :label="false">默认</el-radio>
           </el-radio-group>
         </el-form-item>
+
         <el-form-item label="上传视频">
           <!-- TODO -->
+          <el-upload
+            :on-success="handleVodUploadSuccess"
+            :on-remove="handleVodRemove"
+            :before-remove="beforeVodRemove"
+            :on-exceed="handleUploadExceed"
+            :file-list="fileList"
+            :action="BASE_API + '/eduvod/video/uploadAlyiVideo'"
+            :limit="1"
+            class="upload-demo"
+          >
+            <el-button size="small" type="primary">上传视频</el-button>
+            <el-tooltip placement="right-end">
+              <div slot="content">
+                最大支持1G，<br />
+                支持3GP、ASF、AVI、DAT、DV、FLV、F4V、<br />
+                GIF、M2T、M4V、MJ2、MJPEG、MKV、MOV、MP4、<br />
+                MPE、MPG、MPEG、MTS、OGG、QT、RM、RMVB、<br />
+                SWF、TS、VOB、WMV、WEBM 等视频格式上传
+              </div>
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -119,6 +142,8 @@ export default {
   components: {},
   data() {
     return {
+      BASE_API: process.env.VUE_APP_BASE_API,
+      fileList: [],
       saveBtnDisabled: false,
       chapterVideoList: [],
       courseId: null,
@@ -129,7 +154,13 @@ export default {
       },
 
       dialogVideoFormVisible: false,
-      video: {},
+      video: {
+        title: "",
+        sort: 0,
+        free: 0,
+        videoSourceId: "",
+        videoOriginalName: "",
+      },
       saveVideoBtnDisabled: false,
     };
   },
@@ -156,6 +187,27 @@ export default {
       let res = await chapter.getAllChapterVideo(this.courseId);
       if (res.code == 20000) {
         this.chapterVideoList = res.data.allChapterVideo;
+      }
+    },
+    //成功回调
+    handleVodUploadSuccess(response, file, fileList) {
+      this.video.videoSourceId = response.data.videoId;
+      this.video.videoOriginalName = file.name;
+    },
+    //视图上传多于一个视频
+    handleUploadExceed(files, fileList) {
+      this.$message.warning("想要重新上传视频，请先删除已上传的视频");
+    },
+    beforeVodRemove(file, fileList) {
+      return this.$confirm(`确定移除${file.name}?`);
+    },
+    async handleVodRemove() {
+      let res = await video.deleteAliyunvod(this.video.videoSourceId)
+      if (res.code == 20000) {
+        this.$message.success('视频删除成功')
+        this.video.videoOriginalName = ''
+        this.video.videoSourceId = ''
+        this.fileList = []
       }
     },
     //================章节操作=========================================================

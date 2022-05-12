@@ -20,12 +20,20 @@ export default {
     })
   },
 
-    // 根据id删除小节
-    deleteVideo(id) {
-      return request({
-        url: `/eduservice/video/${id}`,
-        method: 'delete',
-      })
-    },
+  // 根据id删除小节
+  deleteVideo(id) {
+    return request({
+      url: `/eduservice/video/${id}`,
+      method: 'delete',
+    })
+  },
+
+  // 删除视频
+  deleteAliyunvod(id) {
+    return request({
+      url: `/eduvod/video/removeAlyVideo/${id}`,
+      method: 'delete',
+    })
+  },
 
 }
