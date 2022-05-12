@@ -3,6 +3,7 @@ package com.atguigu.eduservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @Date 2022/5/4 15:48
  * @Version 1.0
  */
+@EnableDiscoveryClient // nacos注册
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.atguigu"})
 public class EduApplication {
