@@ -202,12 +202,12 @@ export default {
       return this.$confirm(`确定移除${file.name}?`);
     },
     async handleVodRemove() {
-      let res = await video.deleteAliyunvod(this.video.videoSourceId)
+      let res = await video.deleteAliyunvod(this.video.videoSourceId);
       if (res.code == 20000) {
-        this.$message.success('视频删除成功')
-        this.video.videoOriginalName = ''
-        this.video.videoSourceId = ''
-        this.fileList = []
+        this.$message.success("视频删除成功");
+        this.video.videoOriginalName = "";
+        this.video.videoSourceId = "";
+        this.fileList = [];
       }
     },
     //================章节操作=========================================================
@@ -274,6 +274,7 @@ export default {
       this.video = {};
       this.dialogVideoFormVisible = true;
       this.video.chapterId = chapterId;
+      this.fileList = [];
       this.video.courseId = this.courseId;
     },
     saveOrUpdateVideo() {
