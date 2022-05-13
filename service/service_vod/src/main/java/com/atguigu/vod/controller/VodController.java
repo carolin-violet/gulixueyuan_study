@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @ClassName VodController
  * @Description TODO
@@ -47,5 +49,12 @@ public class VodController {
             e.printStackTrace();
             throw  new GuliExcepiton(20001, "删除失败");
         }
+    }
+
+    // 删除多个阿里云视频的方法
+    @DeleteMapping("delete-batch")
+    public R deleteBatch(@RequestParam("videoIdList") List<String> videoIdList) {
+        vodService.removeMoreAlyVideo(videoIdList);
+        return R.ok();
     }
 }
