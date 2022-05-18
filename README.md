@@ -1,6 +1,6 @@
-# {{ name }}
+# 展示主页
 
-> {{ description }}
+> 
 
 ## Build Setup
 
