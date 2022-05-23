@@ -30,7 +30,7 @@ public class MsmServiceImpl implements MsmService {
     @Override
     public boolean send(String code, String phone) {
         try {
-            Credential cred = new Credential("AKIDYx85ohLkvsdEZeVChyQdbJoJbeT5f3CV", "JOG8uWwBD2d0A5mEQM2ScjaAUYNxHOHw");
+            Credential cred = new Credential("", "");
 
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setReqMethod("GET");
@@ -41,13 +41,13 @@ public class MsmServiceImpl implements MsmService {
             SmsClient client = new SmsClient(cred, "ap-nanjing",clientProfile);
             SendSmsRequest req = new SendSmsRequest();
 
-            String sdkAppId = "1400679413";
+            String sdkAppId = "";
             req.setSmsSdkAppId(sdkAppId);
 
-            String signName = "动漫迷的学习之路";
+            String signName = "";
             req.setSignName(signName);
 
-            String templateId = "1402402";
+            String templateId = "";
             req.setTemplateId(templateId);
 
             String[] templateParamSet = {code};
